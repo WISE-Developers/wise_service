@@ -2,7 +2,8 @@
 {
     "extends": "./tsconfig.base.json",
     "compilerOptions": {
-      "module": "es6",
+      "target": "ESNext",
+      "module": "ESNext",
       "outDir": "./public/js",
       "rootDir": "./src/browser"
     },

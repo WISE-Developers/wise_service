@@ -14,6 +14,10 @@ flowchart TD
   A -->|Watch Job| F[Job Monitor]
 ```
 
+## Who needs this
+
+This reporistory, will be very helpful for folks that want a system that just deploys quickly and just "works" with no tinkering. This implementation wont work for every use case but will demonstrate how to implement custom designed models, build them into modelling jobs, and how to run them and even debug them to some extent.
+
 ## Setup
 
 ### Clone the project to your docker host
