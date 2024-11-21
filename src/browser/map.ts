@@ -1,13 +1,14 @@
 console.log('map.js');
 
-import { controls } from './controls';
+import { controls } from './controls.js';
 
-controls();
+
 
 declare global {
   interface Window {
     w3_open: () => void;
     w3_close: () => void;
+    fireModelsList: any;
   }
 }
 
@@ -26,3 +27,5 @@ window.w3_close = function() {
     sidebar.style.display = "none";
   }
 }
+
+controls(window.fireModelsList);

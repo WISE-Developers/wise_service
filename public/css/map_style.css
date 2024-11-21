@@ -20,8 +20,18 @@
     height: 90vh;
 }
 
-#mySidebar {
+#mapSidebar {
 display: none;
 width: 250px;
 z-index: 1003;
+}
+
+.model-control {
+    font-weight: bold;
+}
+
+.model-description {
+    font-size: 1.2em;
+    border: tomato;
+    border-width: 1px;
 }

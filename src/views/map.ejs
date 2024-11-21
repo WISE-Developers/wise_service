@@ -9,8 +9,8 @@
   <script src="https://kit.fontawesome.com/40434d91ac.js" crossorigin="anonymous"></script>
 
 
-  <link rel="shortcut icon" href="images/favicon-64.png" type="image/icon">
-  <link rel="icon" href="images/favicon-64.png" type="image/icon">
+  <link rel="shortcut icon" href="./images/favicon-64.png" type="image/icon">
+  <link rel="icon" href="./images/favicon-64.png" type="image/icon">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
   <link rel="stylesheet" href="./css/map_style.css">
 </head>
@@ -39,7 +39,9 @@
     const mapStartLatitude= <%= MAP_START_LATITUDE %>;
     const mapStartLongitude= <%= MAP_START_LONGITUDE %>;
     const mapStartZoom= <%= MAP_START_ZOOM %>;
-
+    
+    window.fireModelsList = JSON.parse('<%- JSON.stringify(FIRE_MODEL_LIST) %>');
+    
     const map=L.map('map').setView([mapStartLatitude, mapStartLongitude], mapStartZoom);
 
 

@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.router = void 0;
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const fireModels_1 = require("./fireModels");
 dotenv_1.default.config();
 const MAP_START_LATITUDE = process.env.MAP_START_LATITUDE;
 const MAP_START_LONGITUDE = process.env.MAP_START_LONGITUDE;
@@ -27,11 +28,14 @@ exports.router = express_1.default.Router();
 // );
 //router.get('/map', (req, res) => {
 exports.router.get('/', (req, res) => {
+    let fireModelsList = (0, fireModels_1.getFireModels)();
+    console.log('fireModelsList', fireModelsList);
+    let FIRE_MODEL_LIST = fireModelsList; //JSON.stringify(fireModelsList, null, 2)
     // if (!req.isAuthenticated()) {
     //   return res.redirect('/');
     // }
     //res.render('map', { user: req.user });
-    res.render('map', { MAP_START_LATITUDE, MAP_START_LONGITUDE, MAP_START_ZOOM });
+    res.render('map', { MAP_START_LATITUDE, MAP_START_LONGITUDE, MAP_START_ZOOM, FIRE_MODEL_LIST });
 });
 //router.use('/js', express.static(path.join(__dirname, '../../dist/browser')));
 // router.get('/logout', (req, res, next) => {

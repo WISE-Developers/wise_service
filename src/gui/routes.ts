@@ -2,6 +2,7 @@ import express from 'express';
 import passport from 'passport';
 import path from 'path';
 import dotenv from 'dotenv';
+import { getFireModels } from './fireModels';
 dotenv.config();
 
 const MAP_START_LATITUDE= process.env.MAP_START_LATITUDE
@@ -30,11 +31,14 @@ export const router = express.Router();
 
 //router.get('/map', (req, res) => {
   router.get('/', (req, res) => {
+    let fireModelsList = getFireModels()
+    console.log('fireModelsList',fireModelsList);
+    let FIRE_MODEL_LIST = fireModelsList//JSON.stringify(fireModelsList, null, 2)
   // if (!req.isAuthenticated()) {
   //   return res.redirect('/');
   // }
   //res.render('map', { user: req.user });
-  res.render('map', {MAP_START_LATITUDE, MAP_START_LONGITUDE, MAP_START_ZOOM });
+  res.render('map', {MAP_START_LATITUDE, MAP_START_LONGITUDE, MAP_START_ZOOM, FIRE_MODEL_LIST });
 });
 
 //router.use('/js', express.static(path.join(__dirname, '../../dist/browser')));
