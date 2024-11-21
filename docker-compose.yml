@@ -1,0 +1,74 @@
+services:
+  WISEmqtt:
+    container_name: ${MQTT_CONTAINER_NAME}
+    image: emqx:4.4
+    hostname: mqtt
+    ports:
+      - "1893:1883"
+      - "18093:18083"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://127.0.0.1:18083 || exit 1"]
+      interval: 10s   # Check every 10 seconds
+      timeout: 5s     # Wait 5 seconds before failing
+      retries: 5      # Retry 5 times before marking as unhealthy
+      start_period: 30s  # Initial delay before starting health checks
+    networks:
+      - wise_network
+
+  WISEbuilder:
+    container_name: ${BUILDER_CONTAINER_NAME}
+    image: ${BUILDER_CONTAINER_IMAGE_NAME}
+    hostname: builder
+    mem_limit: 3g             # Maximum 3 GB of memory
+    cpus: "1.0"               # Maximum 1 CPU core
+    build:
+      context: .
+      dockerfile: ./public_builder.Dockerfile
+    environment:
+      - ENTERPRISE_TZ=${TZ}
+      - WISE_EXTERNAL_DATA_FOLDER=${WISE_EXTERNAL_DATA_FOLDER}
+      - WISE_BUILDER_MQTT_HOST=${WISE_BUILDER_MQTT_HOST}
+      - WISE_BUILDER_MQTT_PORT=${WISE_BUILDER_MQTT_PORT}
+      - WISE_BUILDER_MQTT_TOPIC=${WISE_BUILDER_MQTT_TOPIC}
+      - WISE_BUILDER_HOST=${WISE_BUILDER_HOST}
+      - WISE_BUILDER_PORT=${WISE_BUILDER_PORT}
+    ports:
+      - ${EXTERNAL_BUILDER_PORT}:32479
+    volumes:
+      - ${WISE_EXTERNAL_DATA_FOLDER}:${WISE_INTERNAL_DATA_FOLDER}
+    env_file:
+      - .env
+    depends_on:
+      WISEmqtt:
+        condition: service_healthy  # Only start WISEmodeller when WISEmqtt is healthy
+    networks:
+      - wise_network
+
+  WISEmodeller:
+    container_name: ${WISE_CONTAINER_NAME}
+    image: ${WISE_CONTAINER_IMAGE_NAME}
+    hostname: wise
+    mem_limit: 3g             # Maximum 3 GB of memory
+    cpus: "1.0"               # Maximum 1 CPU core
+    build:
+      context: .
+      dockerfile: ./public_wise.Dockerfile
+
+    environment:
+      - ENTERPRISE_TZ=${TZ}
+      - WISE_EXTERNAL_DATA_FOLDER=${WISE_EXTERNAL_DATA_FOLDER}
+      - WISE_BUILDER_MQTT_HOST=${WISE_BUILDER_MQTT_HOST}
+      - WISE_BUILDER_MQTT_PORT=${WISE_BUILDER_MQTT_PORT}
+      - WISE_BUILDER_MQTT_TOPIC=${WISE_BUILDER_MQTT_TOPIC}
+      - WISE_BUILDER_HOST=${WISE_BUILDER_HOST}
+      - WISE_BUILDER_PORT=${WISE_BUILDER_PORT}
+
+    volumes:
+      - ${WISE_EXTERNAL_DATA_FOLDER}:${WISE_INTERNAL_DATA_FOLDER}
+    env_file:
+      - .env
+    networks:
+      - wise_network  # Specify the existing network
+networks:
+  wise_network:
+    driver: bridge

@@ -1,0 +1,31 @@
+{
+  "name": "wise_service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "run-wise.js",
+  "scripts": {
+    "build": "tsc",
+    "monitor": "node socket_server.js",
+    "builder_server": "sh runBuilder.sh",
+    "startBuilder": "/usr/bin/java -jar /usr/bin/WISE_Builder.jar -j /usr/src/app/WISE_data/jobs &"
+  },
+  "author": "",
+  "license": "AGPL-3.0-or-later",
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^14.18.63",
+    "@types/turf": "^3.5.32",
+    "nodemon": "^2.0.7",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "@turf/turf": "^7.1.0",
+    "dotenv": "^16.4.5",
+    "exiftool-vendored": "^29.0.0",
+    "fs-extra": "^11.2.0",
+    "geo-tz": "^8.1.2",
+    "luxon": "^3.5.0",
+    "moment-timezone": "^0.5.46",
+    "wise_js_api": "github:WISE-Developers/WISE_JS_API#1.0.6-beta.5"
+  }
+}

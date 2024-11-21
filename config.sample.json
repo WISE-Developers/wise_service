@@ -1,0 +1,28 @@
+{
+    "log": {
+      "filename": "logfile.log",
+      "verbosity": "MAX"
+    },
+    "signals": {
+      "start": "start.txt",
+      "complete": "complete.txt"
+    },
+    "hardware": {
+      "processes": 1,
+      "cores": 1
+    },
+  
+      "mqtt": {
+        "hostname": "mqtt",
+        "port":1883,
+        "topic": "WISEPUBLIC",
+        "verbosity": "INFO",
+        "qos": 1
+      },
+    "builder": {
+      "hostname": "127.0.0.1",
+      "port": 32479,
+      "format": "JSON"
+    },
+    "exampleDirectory": "/exampleDirectory/WAS/NOT/SET/DURING/INSTALL/"
+  }
