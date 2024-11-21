@@ -33,22 +33,6 @@ RUN apt-get update -qq && apt-get install -qq --no-install-recommends \
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt install -y nodejs 
 
-# Install WISE
-# 1. Download and decompress the wise builder zip.
-# 2. Copy the WISE_Builder.jar and WISE_Builder_lib to /usr/bin
-# 3. Clean up temporary files.
-
-RUN mkdir -p /tmp/WISE/
-
-
-RUN curl -fsSL ${WISE_BUILDER_LINK} -o /tmp/WISE/WISE_Builder_${WISE_ENGINE_VERSION}.zip; 
-RUN unzip /tmp/WISE/WISE_Builder_${WISE_ENGINE_VERSION}.zip -d /tmp/WISE
-RUN ls -lha /tmp/WISE;
-RUN cp /tmp/WISE/WISE_Builder.jar /usr/bin
-RUN cp -r /tmp/WISE/WISE_Builder_lib /usr/bin/WISE_Builder_lib
-
-
-
 # work around bug in openssl (remove the last line in config)
 # allows FETCH to use SSL otherwise secure connections fail
 RUN head -n -1 /etc/ssl/openssl.cnf > temp.txt ; mv temp.txt /etc/ssl/openssl.cnf
@@ -59,7 +43,7 @@ RUN mkdir -p /usr/src/app/node_modules/wise_js_api
 # where available (npm@5+)
 
 WORKDIR /usr/src/app
-COPY . .
+COPY ./dist/monitor/*.* .
 
 # RUN pwd
 # RUN echo "SHowing the jobs/ image..."
@@ -69,11 +53,9 @@ COPY . .
 
 COPY package*.json /usr/src/app/
 RUN npm install
-WORKDIR /usr/src/app/node_modules/wise_js_api
-RUN npm install
-WORKDIR /usr/src/app
+
 RUN chmod a+x /usr/src/app/configVars.sh
 RUN . ./configVars.sh
 
 # Launch builder to run in the background.
-CMD ["npm", "run", "builder_server"]
+CMD ["npm", "run", "monitorLive"]

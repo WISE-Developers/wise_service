@@ -10,7 +10,7 @@ const geoTz = require('geo-tz')
 const moment = require('moment-timezone')
 const localTz = process.env.TZ
 // async reducer
-async function reduce(asyncIter, f, init) {
+async function reduce(asyncIter:any, f:any, init:any) {
     let res = init;
     for await (const x of asyncIter) {
         res = f(res, x);
@@ -19,7 +19,7 @@ async function reduce(asyncIter, f, init) {
 }
 
 
-const timeZoneLookup = (lat, lon, unixTime) => {
+const timeZoneLookup = (lat:number, lon:number, unixTime:any) => {
     var timeZoneInfo = geoTz(lat, lon)[0];
     //console.log(timeZoneInfo)
     var timeZoneOffset = moment(parseInt(unixTime) * 1000).tz(timeZoneInfo).format('Z').split(':')[0]
@@ -34,14 +34,14 @@ const timeZoneLookup = (lat, lon, unixTime) => {
 }
 
 
-const timeZoneByLatLon = async (lat,lon) => {
+const timeZoneByLatLon = async (lat:number,lon:number) => {
     console.log('Executing timeZoneByLatLon...', lat,lon)
     let tzObj = await timeZoneLookup(lat, lon, moment().unix())
     return { 'tzObj': tzObj, 'lat': lat,'lon':lon }
 }
 
 
-const readWxByFireID= async (fire, lat,lon) => {
+const readWxByFireID= async (fire:any, lat:number,lon:number) => {
     let fh0 = console.log("Executing getSpotwxByLatLon...", lat,lon)
     let { tzObj } = await timeZoneByLatLon(lat,lon)
 //     console.log("tzObj",tzObj);
@@ -101,22 +101,24 @@ const readWxByFireID= async (fire, lat,lon) => {
 }
 
 
-const processSpotwxLatLonData = async (forecastCsv, lat,lon, localTz, forecastType) => {
+const processSpotwxLatLonData = async (forecastCsv:any, lat:number,lon:number, localTz:any, forecastType:any) => {
     let forecastRecordsArr = forecastCsv.trim().split('\n')
-    let header = forecastRecordsArr.shift().toLowerCase().split(',')
+    let header: string[] = forecastRecordsArr.shift().toLowerCase().split(',')
 
-    let forecastData = await forecastRecordsArr.map(r => {
+    let forecastData = await forecastRecordsArr.map((r:string) => {
         // merge header and record to create a value pair object.
-        let recArr = r.split(',')
-        let newRecord = header.reduce((acc, item, i) => {
+        let recArr: string[] = r.split(',')
+        type RecordType = { [key: string]: string };
+
+        const newRecord: RecordType = header.reduce((acc: RecordType, item: string, i: number) => {
             acc[item] = recArr[i];
             return acc;
         }, {});
         // create a moment object for the record date for manipulation
         let recordDateM = moment(newRecord.hourly, "DD/MM/YYYY").add(newRecord.hour, 'hours')
         let localRecordDateM = recordDateM.clone()
-        newRecord.lat = lat;
-        newRecord.lon = lon;
+        newRecord.lat = String(lat);
+        newRecord.lon = String(lon);
         
         newRecord.forecastType = forecastType
 

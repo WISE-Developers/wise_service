@@ -5,7 +5,8 @@
   "main": "run-wise.js",
   "scripts": {
     "build": "tsc",
-    "monitor": "node socket_server.js",
+    "monitor": "node dist/monitor/socket_server.js",
+    "monitorLive": "node socket_server.js",
     "builder_server": "sh runBuilder.sh",
     "startBuilder": "/usr/bin/java -jar /usr/bin/WISE_Builder.jar -j /usr/src/app/WISE_data/jobs &"
   },
@@ -13,19 +14,33 @@
   "license": "AGPL-3.0-or-later",
   "devDependencies": {
     "@types/express": "^5.0.0",
+    "@types/express-session": "^1.18.0",
+    "@types/fs-extra": "^11.0.4",
     "@types/node": "^14.18.63",
+    "@types/passport-google-oauth20": "^2.0.16",
+    "@types/socket.io": "^3.0.2",
     "@types/turf": "^3.5.32",
     "nodemon": "^2.0.7",
     "typescript": "^5.6.3"
   },
   "dependencies": {
+    "@turf/helpers": "^7.1.0",
     "@turf/turf": "^7.1.0",
+    "@types/geojson": "^7946.0.14",
+    "@types/luxon": "^3.4.2",
     "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
     "exiftool-vendored": "^29.0.0",
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
     "fs-extra": "^11.2.0",
     "geo-tz": "^8.1.2",
+    "leaflet": "^1.9.4",
     "luxon": "^3.5.0",
     "moment-timezone": "^0.5.46",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "socket.io": "^4.8.1",
     "wise_js_api": "github:WISE-Developers/WISE_JS_API#1.0.6-beta.5"
   }
 }

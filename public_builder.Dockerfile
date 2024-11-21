@@ -59,7 +59,8 @@ RUN mkdir -p /usr/src/app/node_modules/wise_js_api
 # where available (npm@5+)
 
 WORKDIR /usr/src/app
-COPY . .
+COPY ./dist/builder/*.* .
+#COPY . .
 
 # RUN pwd
 # RUN echo "SHowing the jobs/ image..."
