@@ -1,17 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <title>Map</title>
+  <title>WISE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-grey.css">
+  <script src="https://kit.fontawesome.com/40434d91ac.js" crossorigin="anonymous"></script>
+
+
+  <link rel="shortcut icon" href="images/favicon-64.png" type="image/icon">
+  <link rel="icon" href="images/favicon-64.png" type="image/icon">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+  <link rel="stylesheet" href="./css/map_style.css">
 </head>
+
 <body>
-  <div id="map" style="width: 100%; height: 100vh;"></div>
+  <div class="w3-sidebar w3-bar-block w3-collapse w3-card" id="mySidebar">
+    <button class="w3-bar-item w3-button w3-hide-large" onclick="w3_close()">Close &times;</button>
+    <a href="#" class="w3-bar-item w3-button">Link 1</a>
+    <a href="#" class="w3-bar-item w3-button">Link 2</a>
+    <a href="#" class="w3-bar-item w3-button">Link 3</a>
+  </div>
+
+  <div id="header" class="w3-container w3-theme-d1">
+    <img src="images/favicon-64.png" alt="" onclick="w3_open()">
+    <span id="acronym" class="highlight">Wildfire Intelligence and Simulation Engine</span>
+
+  </div>
+  <div id="map"></div>
   <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
   <script>
-    const map = L.map('map').setView([51.505, -0.09], 13);
+    // const span = document.getElementById('acronym');
+    // span.innerHTML = span.textContent.replace(/\b(\w)/g, '<span>$1</span>');
+    function w3_open() {
+      console.log("open");
+      document.getElementById("mySidebar").style.display="block";
+    }
+
+    function w3_close() {
+      console.log("close");
+      document.getElementById("mySidebar").style.display="none";
+    }
+    const span=document.getElementById('acronym');
+    span.innerHTML=span.textContent.replace(/\b([A-Z])/g, '<span>$1</span>');
+
+
+    const mapStartLatitude= <%= MAP_START_LATITUDE %>;
+    const mapStartLongitude= <%= MAP_START_LONGITUDE %>;
+    const mapStartZoom= <%= MAP_START_ZOOM %>;
+
+    const map=L.map('map').setView([mapStartLatitude, mapStartLongitude], mapStartZoom);
+
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors',
     }).addTo(map);
   </script>
+
+<script type="module" src="/js/map.js"></script>
 </body>
+
 </html>

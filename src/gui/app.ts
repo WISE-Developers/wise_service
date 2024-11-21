@@ -3,7 +3,7 @@ import session from 'express-session';
 import passport from 'passport';
 import path from 'path';
 import dotenv from 'dotenv';
-import './passportConfig';
+//import './passportConfig';
 import { router } from './routes';
 
 dotenv.config();
@@ -11,20 +11,20 @@ dotenv.config();
 const app = express();
 
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, '../../src/views'));
+console.log(path.join(__dirname, '../../public'));
+app.use(express.static(path.join(__dirname, '../../public')));
 
-app.use(express.static(path.join(__dirname, '../public')));
+// app.use(
+//   session({
+//     secret: 'your-secret-key',
+//     resave: false,
+//     saveUninitialized: true,
+//   })
+// );
 
-app.use(
-  session({
-    secret: 'your-secret-key',
-    resave: false,
-    saveUninitialized: true,
-  })
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 app.use('/', router);
 

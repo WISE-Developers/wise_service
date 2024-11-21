@@ -1,0 +1,27 @@
+.highlight span {
+    font-size: 1.8em; /* Make the letter larger */
+    font-weight: bold;
+    color: #c1c1c1; /* Add a distinct color */
+}
+
+.highlight {
+    font-size: 1.5em; /* Make the letter larger */
+    font-weight: bold;
+    color: #ffffff; /* Add a distinct color */
+}
+
+#header {
+   width: 100%; 
+   height: 10vh;
+}
+
+#map {
+    width: 100%;
+    height: 90vh;
+}
+
+#mySidebar {
+display: none;
+width: 250px;
+z-index: 1003;
+}

@@ -4,7 +4,8 @@
   "description": "",
   "main": "run-wise.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --project tsconfig.node.json && tsc --project tsconfig.browser.json",
+    "GUI": "node dist/GUI/app.js",
     "monitor": "node dist/monitor/socket_server.js",
     "monitorLive": "node socket_server.js",
     "builder_server": "sh runBuilder.sh",

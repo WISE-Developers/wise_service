@@ -1,0 +1,11 @@
+// tsconfig.browser.json
+{
+    "extends": "./tsconfig.base.json",
+    "compilerOptions": {
+      "module": "es6",
+      "outDir": "./public/js",
+      "rootDir": "./src/browser"
+    },
+    "include": ["src/browser/*"],
+    "exclude": ["node_modules","cleanup"]
+  }

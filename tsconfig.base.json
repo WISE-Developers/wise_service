@@ -1,0 +1,10 @@
+// tsconfig.base.json
+{
+    "compilerOptions": {
+      "target": "es6",
+      "moduleResolution": "node",
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true
+    }
+  }
