@@ -60,6 +60,7 @@ RUN mkdir -p /usr/src/app/node_modules/wise_js_api
 
 WORKDIR /usr/src/app
 COPY ./dist/builder/*.* .
+COPY configVars.sh .
 #COPY . .
 
 # RUN pwd
