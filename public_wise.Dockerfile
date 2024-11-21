@@ -16,7 +16,7 @@ ARG WISE_INTERNAL_JOBS_FOLDER="/usr/src/app/WISE_data/jobs"
 
 #Install Java and other software into the container
 RUN apt-get update -qq && apt-get install -qq --no-install-recommends \
-#	openjdk-16-jre \
+	openjdk-16-jre \
 	htop \
 	build-essential \ 
 	zip \
