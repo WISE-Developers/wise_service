@@ -1,11 +1,26 @@
-document.getElementById("close").addEventListener("click", () => {
-    document.getElementById("dialog").close();
-});
-
-const socket=io();
 
 
-function showDialog(detailsTextContent, dialogTitle, x, y) {
+
+
+
+
+
+const closeButton = document.getElementById("close");
+if (closeButton) {
+    closeButton.addEventListener("click", () => {
+        const dialog = document.getElementById("dialog");
+        if (dialog) {
+            (dialog as HTMLDialogElement).close();
+        }
+    });
+}
+
+import { io } from "socket.io-client";
+
+const socket = io();
+
+
+function showDialog(detailsTextContent:string, dialogTitle:string, x:any, y:any) {
     return new Promise((resolve, reject) => {
 
 
@@ -65,16 +80,17 @@ function showDialog(detailsTextContent, dialogTitle, x, y) {
 }
 
 // this function will format the jobAnalysis object into a nice HTML string
-function formatAnalysis(jobAnalysis) {
+function formatAnalysis(jobAnalysis:any) {
     let analysisDisplay="";
     for (const [key, obj] of Object.entries(jobAnalysis)) {
         analysisDisplay+=`<h3>${key}</h3>`;
         analysisDisplay+="<ul>";
-        for (const [k, vObj] of Object.entries(obj)) {
+        for (const [k, vObj] of Object.entries(obj as { [key: string]: any })) {
             // we switch case the key here to change formatting by key type
             switch (key) {
                 case "scenarios":
-                    analysisDisplay+=`<li>${vObj.name} <br> ${vObj.comments}`;
+                    const scenario = vObj as { name: string; comments: string; startTime: string; endTime: string; durationInDays: number };
+                    analysisDisplay+=`<li>${scenario.name} <br> ${scenario.comments}`;
                     analysisDisplay+=`<ul><li>StartTime:${vObj.startTime}</li>`;
                     analysisDisplay+=`<li>EndTime:${vObj.endTime}</li>`;
                     analysisDisplay+=`<li>DurationInDays:${vObj.durationInDays}</li></ul>`;
@@ -157,23 +173,23 @@ function formatAnalysis(jobAnalysis) {
 
 
 // this function will render divs for each model run in the display-panel div
-function renderRunList(data) {
+function renderRunList(data:any) {
     console.log("renderRunList data:", data);
 
 
     let displayPanel=document.getElementById("display-panel");
     // now clear the display panel
-    displayPanel.innerHTML="";
+    if (displayPanel) displayPanel.innerHTML="";
 
     // now lets update the refresh-block element
     let refreshBlock=document.getElementById("refresh-block");
     let currentLocalDateTimeString=new Date().toLocaleString();
 
-    refreshBlock.innerHTML="Last Refreshed: "+currentLocalDateTimeString;
+    if(refreshBlock) refreshBlock.innerHTML="Last Refreshed: "+currentLocalDateTimeString;
 
 
     //iterate over the objects in the data array
-    data.runs.forEach(run => {
+    data.runs.forEach((run:any) => {
 
         let runDateStr=run.jobDir.split('_')[1];
 
@@ -212,7 +228,7 @@ function renderRunList(data) {
         let jobIcon=document.createElement("i");
         jobIcon.title="Job Number";
         jobIcon.classList.add("fa-solid", "fa-list-check", "fa-fw");
-        jobText=document.createTextNode(run.jobDir);
+       let jobText=document.createTextNode(run.jobDir);
         let nbspJob=document.createTextNode("\u00A0");
         job.appendChild(jobIcon);
         job.appendChild(nbspJob);
@@ -224,7 +240,7 @@ function renderRunList(data) {
         i.classList.add("fa-solid", "fa-calendar-days", "fa-fw");
         // make nbsp
         let nbspP=document.createTextNode("\u00A0");
-        pTxt=document.createTextNode(runDate);
+       let  pTxt=document.createTextNode(runDate);
         execDate.appendChild(i);
         execDate.appendChild(nbspP);
         execDate.appendChild(pTxt);
@@ -248,7 +264,7 @@ function renderRunList(data) {
             scenarioIcon.title="Scenarios";
             scenarioIcon.classList.add("fa-solid", "fa-fire-burner", "fa-fw");
             let nbspScenario=document.createTextNode("\u00A0");
-            scenarioText=document.createTextNode(element);
+          let  scenarioText=document.createTextNode(element);
             scenario.appendChild(scenarioIcon);
             scenario.appendChild(nbspScenario);
             scenario.appendChild(scenarioText);
@@ -309,9 +325,9 @@ function renderRunList(data) {
 
         analysisSpan.addEventListener("click", (event) => {
             // now lets select the div containing this statusSpan that has the class w3-row
-            let div=event.target.closest(".w3-row");
+            let div=(event.target as HTMLElement)?.closest(".w3-row");
             // now add a red border to the div until we close the dialog
-            div.style.border="2px solid red";
+            if (div) (div as HTMLElement).style.border="2px solid red";
             // Prevent the default action
             event.preventDefault();
             //show it and when we close it, remove the red border
@@ -319,7 +335,7 @@ function renderRunList(data) {
             showDialog(analysisDisplay, "Job Analysis", 20, 20)
                 .then((result) => {
                     //now lets remove the red border    
-                    div.style.border="none";
+                   if (div) (div as HTMLElement).style.border="none";
                 }).catch((err) => {
 
                 });
@@ -336,7 +352,7 @@ function renderRunList(data) {
 
         statusSpan.addEventListener("click", (event) => {
             // now lets select the div containing this statusSpan that has the class w3-row
-            let div=event.target.closest(".w3-row");
+            let div = (event.target as HTMLElement)?.closest(".w3-row") as HTMLElement;
             // now add a red border to the div until we close the dialog
             div.style.border="2px solid red";
             // Prevent the default action
@@ -355,8 +371,8 @@ function renderRunList(data) {
 
         statusSpan.addEventListener("touchstart", (event) => {
 
-            // now lets select the div containing this statusSpan that has the class w3-row
-            let div=event.target.closest(".w3-row");
+            // now lets select the div containing this statusSpan that has the class w3-row            
+            let div = (event.target as HTMLElement)?.closest(".w3-row") as HTMLElement;
             // now add a red border to the div until we close the dialog
             div.style.border="2px solid red";
             // Prevent the default action
@@ -370,9 +386,9 @@ function renderRunList(data) {
 
         div.appendChild(div2);
 
-        displayPanel.appendChild(div);
+        displayPanel?.appendChild(div);
         let hr=document.createElement("hr");
-        displayPanel.appendChild(hr);
+        displayPanel?.appendChild(hr);
     });
 
 
@@ -381,12 +397,12 @@ function renderRunList(data) {
 
 
 // this function will take a data object and return an html element based list with links to the files.
-function createList(incomingData) {
+function createList(incomingData:any) {
     let data=incomingData.data;
     console.log("createList data:", data);
     let list=document.createElement("ul");
 
-    data.forEach(file => {
+    data.forEach((file:any) => {
         let JSON=document.createElement("li");
         let aJson=document.createElement("a");
         aJson.href="./"+file.JSON;
@@ -415,22 +431,33 @@ function createList(incomingData) {
     return list;
 }
 
-function updateUI(data) {
+function updateUI(data:any) {
     console.log("updateUI data:", data);
-    const dialog=document.getElementById("dialog");
+    const dialog:any=document.getElementById("dialog");
     let list=createList(data);
-    dialog.replaceChild(list, dialog.querySelector("ul"));
+    if (dialog) {
+        const ulElement = dialog.querySelector("ul");
+        if (ulElement) {
+            dialog.replaceChild(list, ulElement);
+        }
+    }
 
-    if (!dialog.open) {
+    if (dialog && !dialog.open) {
         dialog.showModal();
     }
 
-    document.getElementById("dataDisplay").innerText=data.message;
+    const dataDisplay = document.getElementById("dataDisplay");
+    if (dataDisplay) {
+        dataDisplay.innerText = data.message;
+    }
 }
 
-socket.on("server_data", (data) => {
+socket.on("server_data", (data:any) => {
     console.log("server_data data:", data);
-    document.getElementById("dataDisplay").innerText=data.message;
+    const dataDisplayElement = document.getElementById("dataDisplay");
+    if (dataDisplayElement) {
+        dataDisplayElement.innerText = data.message;
+    }
     renderRunList(data);
 });
 
@@ -438,13 +465,16 @@ function requestUpdate() {
     socket.emit("request_update");
 }
 
-socket.on("update_data", (data) => {
+socket.on("update_data", (data:any) => {
     console.log("update_data data:", data);
-    document.getElementById("dataDisplay").innerText=data.ts+": "+data.data;
+    const dataDisplay = document.getElementById("dataDisplay");
+    if (dataDisplay) {
+        dataDisplay.innerText = data.ts + ": " + data.data;
+    }
     updateUI(data);
 });
 
-function renderJobStatus(status) {
+function renderJobStatus(status:string) {
     console.log("renderJobStatus status:", status);
     let jobStatus=document.createElement("i");
     jobStatus.title=status;
@@ -487,8 +517,8 @@ function renderJobStatus(status) {
 
 let aboutIcon = document.getElementById("about-button");
 // change the cursor to a pointer
-aboutIcon.style.cursor="pointer";
-aboutIcon.addEventListener("click", (event) => {
+if (aboutIcon) aboutIcon.style.cursor="pointer";
+if (aboutIcon) aboutIcon.addEventListener("click", (event) => {
     showDialog( "This is a simple web application that displays the status of model runs on a server. It uses a Node.js server with Socket.io to push updates to the client. The client is a simple HTML page with some JavaScript to handle the updates. The server is a simple Node.js server that uses the fs module to read the files in a directory and send the data to the client. The client uses the Socket.io library to listen for updates from the server and update the UI.","About", 20, 20);
 
    

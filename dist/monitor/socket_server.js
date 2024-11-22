@@ -206,7 +206,10 @@ const io = new socket_io_1.Server(httpServer);
 //     });
 // }
 // Serve static files (HTML, JS) from a 'public' directory
-app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
+console.clear();
+let publicPath = path_1.default.join(__dirname, "../../public");
+console.log("Serving Static files from Public path: ", publicPath);
+app.use(express_1.default.static(publicPath));
 //app.use(express.static(path.join(__dirname, "sample_data")));
 // Handle socket connection and events
 io.on("connection", async (socket) => {
@@ -228,7 +231,6 @@ io.on("connection", async (socket) => {
     });
 });
 httpServer.listen(PORT, () => {
-    console.clear();
     let currentDateTimeString = new Date().toLocaleString();
     console.log(currentDateTimeString + ":");
     console.log(`Server is running on http://localhost:${PORT}`);

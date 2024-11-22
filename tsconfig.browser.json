@@ -5,7 +5,8 @@
       "target": "ESNext",
       "module": "ESNext",
       "outDir": "./public/js",
-      "rootDir": "./src/browser"
+      "rootDir": "./src/browser",
+      "typeRoots": ["./node_modules/@types", "./src/types"]
     },
     "include": ["src/browser/*"],
     "exclude": ["node_modules","cleanup"]

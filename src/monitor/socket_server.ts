@@ -277,7 +277,12 @@ const io = new Server(httpServer);
 //     });
 // }
 // Serve static files (HTML, JS) from a 'public' directory
-app.use(express.static(path.join(__dirname, "public")));
+console.clear();
+let publicPath = path.join(__dirname, "../../public");
+
+console.log("Serving Static files from Public path: ", publicPath);
+
+app.use(express.static(publicPath));
 //app.use(express.static(path.join(__dirname, "sample_data")));
 // Handle socket connection and events
 io.on("connection", async (socket) => {
@@ -303,7 +308,7 @@ io.on("connection", async (socket) => {
 });
 
 httpServer.listen(PORT, () => {
-    console.clear();
+    
     let currentDateTimeString = new Date().toLocaleString();
     console.log(currentDateTimeString + ":")
     console.log(`Server is running on http://localhost:${PORT}`);
