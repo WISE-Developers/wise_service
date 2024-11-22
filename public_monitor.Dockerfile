@@ -16,7 +16,7 @@ ARG WISE_JS_API_LINK="https://github.com/WISE-Developers/WISE_JS_API/releases/do
 
 #Install Java and other software into the container
 RUN apt-get update -qq && apt-get install -qq --no-install-recommends \
-	openjdk-16-jre \
+	# openjdk-16-jre \
 	htop \
 	build-essential \ 
 	zip \
