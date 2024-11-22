@@ -10,8 +10,9 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const routes_1 = require("./routes");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
+const VIEWS_FOLDER = process.env.WISE_GUI_VIEWS_FOLDER || 'VIEWS_FOLDER_ERROR';
 app.set('view engine', 'ejs');
-app.set('views', path_1.default.join(__dirname, '../../src/views'));
+app.set('views', path_1.default.join(__dirname, VIEWS_FOLDER));
 console.log(path_1.default.join(__dirname, '../../public'));
 // app.use(
 //   session({

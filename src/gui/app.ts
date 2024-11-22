@@ -9,9 +9,9 @@ import { router } from './routes';
 dotenv.config();
 
 const app = express();
-
+const VIEWS_FOLDER = process.env.WISE_GUI_VIEWS_FOLDER || 'VIEWS_FOLDER_ERROR';
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '../../src/views'));
+app.set('views', path.join(__dirname, VIEWS_FOLDER));
 console.log(path.join(__dirname, '../../public'));
 
 
