@@ -75,7 +75,7 @@ services:
     image: ${GUI_CONTAINER_IMAGE_NAME}
     hostname: gui
     ports:
-      - "${EXTERNAL_APP_PORT}:3000"      
+      - ${EXTERNAL_APP_PORT}:3000
     mem_limit: 3g             # Maximum 3 GB of memory
     cpus: "1.0"               # Maximum 1 CPU core
     build:
