@@ -107,7 +107,7 @@ services:
     cpus: "1.0"               # Maximum 1 CPU core
     build:
       context: .
-      dockerfile: ./public_gui.Dockerfile
+      dockerfile: ./public_monitor.Dockerfile
 
     environment:
       - ENTERPRISE_TZ=${TZ}
