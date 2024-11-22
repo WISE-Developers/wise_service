@@ -102,7 +102,7 @@ services:
     image: ${MONITOR_CONTAINER_IMAGE_NAME}
     hostname: monitor
     ports:
-      - "${WISE_RESULTS_SOCKETS_WEB_PORT}:3030"      
+      - "0.0.0.0:${WISE_RESULTS_SOCKETS_WEB_PORT}:{WISE_RESULTS_SOCKETS_WEB_PORT}"      
     mem_limit: 3g             # Maximum 3 GB of memory
     cpus: "1.0"               # Maximum 1 CPU core
     build:
