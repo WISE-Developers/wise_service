@@ -59,4 +59,4 @@ RUN chmod a+x /usr/src/app/configVars.sh
 RUN . ./configVars.sh
 
 # Launch builder to run in the background.
-CMD ["npm", "run", "monitorLive"]
+CMD ["npm", "run", "monitor"]
