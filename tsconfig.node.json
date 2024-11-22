@@ -1,3 +1,4 @@
+// tsconfig.node.json
 { "extends": "./tsconfig.base.json",
     "compilerOptions": {
       "target": "ESNext",

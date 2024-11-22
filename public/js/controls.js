@@ -1,4 +1,5 @@
-import { createWizard } from './modelInputs';
+// in the typescript context for the browser you must import the js file
+import { createWizard } from './model_inputs.js';
 const controls = function (fireModelsList) {
     console.log('controls.js');
     console.log('fireModelsList', fireModelsList);
@@ -35,12 +36,16 @@ const controls = function (fireModelsList) {
             console.log('create model', basename);
             // close the sidebar
             window.w3_close();
-            let dialog = createWizard(fireModel);
+            let { dialog, stepDivs } = createWizard(fireModel);
+            dialog.showModal();
+            let currentStep = 0;
+            stepDivs[currentStep].style.display = 'block';
         });
         if (sidebar)
             sidebar.appendChild(description);
         // add an event listener to the div
         div.addEventListener('click', function () {
+            console.log('click', basename);
             // get the description element
             const description = document.getElementById(fireModel.filename + '-description');
             // if the description element exists

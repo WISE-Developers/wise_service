@@ -1,10 +1,7 @@
-
-
 //function to create a multi step inputs wizard - takes an abstract object as inout
 // this will initiliZw an html5 dialog element in modal mode, and then step through the inputs
 // using the abstract object to define the steps. for gui elements we will use html elments styled with 
 // w3.css but we will not use w3-modal
-
 // the abstract object will contain the following properties
 // {
 //     "name": "SGP Model",
@@ -17,7 +14,7 @@
 //         "fireName"
 //     ]
 // }
-const createWizard = (abstract: any) => {
+const createWizard = (abstract) => {
     let dialog = document.createElement('dialog');
     dialog.id = 'WizardInputs';
     document.body.appendChild(dialog);
@@ -32,7 +29,6 @@ const createWizard = (abstract: any) => {
     dialog.style.top = '10vh';
     dialog.style.left = '10vw';
     dialog.style.zIndex = '1000';
-
     let step = 0;
     let steps = abstract.inputs.length;
     let inputs = {};
@@ -55,6 +51,12 @@ const createWizard = (abstract: any) => {
     cancelButton.textContent = 'Cancel';
     cancelButton.style.marginTop = '10px';
     cancelButton.style.marginRight = '10px';
+    // add handler to cancel button
+    cancelButton.addEventListener('click', function () {
+        dialog.close();
+        // now destroy the dialog
+        dialog.remove();
+    });
     dialog.appendChild(cancelButton);
     let finishButton = document.createElement('div');
     finishButton.className = 'w3-button w3-green w3-round w3-right';
@@ -71,13 +73,57 @@ const createWizard = (abstract: any) => {
     let description = document.createElement('p');
     description.textContent = abstract.description;
     content.appendChild(description);
-    let form = document.createElement('form');
-    content.appendChild(form);
-    
-
-
+    // now we will iterate over the inputs and create the form elements
+    let wizardSteps = abstract.inputs;
+    let stepDivs = [];
+    let currentStep = 0;
+    for (let i = 0; i < wizardSteps.length; i++) {
+        let stepDiv = document.createElement('div');
+        stepDiv.id = 'step' + i;
+        stepDiv.style.display = 'none';
+        stepDivs.push(stepDiv);
+        let stepTitle = document.createElement('h4');
+        stepTitle.textContent = wizardSteps[i];
+        stepDiv.appendChild(stepTitle);
+        let stepContent = document.createElement('div');
+        stepDiv.appendChild(stepContent);
+        let input = document.createElement('input');
+        input.type = 'text';
+        input.id = wizardSteps[i];
+        input.className = 'w3-input w3-border w3-round';
+        stepContent.appendChild(input);
+        content.appendChild(stepDiv);
+    }
+    return { dialog, stepDivs };
+};
+function generateWeatherChoices() {
+    return ['point(lat-lon)', 'point(map)', 'polygon(geojson)', 'polygon(map)'];
 }
-
-
-
-export { createWizard }
+const stepLib = {
+    modelStart: {},
+    fireName: {},
+    ignition: {
+        target: "ignitionGeometry",
+        description: "This is the ignition geometry for the fire",
+        adminNote: "This is the ignition geometry for the fire, it will be saved as a geojson geometry called ignition geometry",
+        choice: ["pointLatLon)", "pointMap", 'polygonGeojson', 'polygonMap'],
+        pointLatLon: {
+            "description": "This is the ignition point for the fire",
+            "inputs": ["latitude", "longitude"]
+        },
+        pointMap: {},
+        polygonGeojson: {},
+        polygonMap: {}
+    },
+    weather: {
+        description: "This is the weather model for the forecast",
+        adminNote: "This is the weather for model for the forecast, it and the point/centroid will be used to generate a forecast, it will be saved as a text string in weather stream format called weather stream",
+        choiceFunction: generateWeatherChoices,
+        choiceArgs: ["ignitionGeometry", "point-map", 'polygon(geojson)', 'polygon-map'],
+        "point(lat-lon)": {
+            "description": "This is the weather point for the fire",
+            "inputs": ["latitude", "longitude"]
+        },
+    }
+};
+export { createWizard };
