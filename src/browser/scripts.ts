@@ -1,7 +1,10 @@
 
 
 
-
+// create a type for the window obext with teh socket property
+interface Window {
+    socket: any;
+}
 
 
 
@@ -15,9 +18,8 @@ if (closeButton) {
     });
 }
 
-import { io } from "socket.io-client";
 
-const socket = io();
+
 
 
 function showDialog(detailsTextContent:string, dialogTitle:string, x:any, y:any) {
@@ -311,6 +313,18 @@ function renderRunList(data:any) {
 
         let nbspAnalysis=document.createTextNode("\u00A0");
         
+        if (run.jobAnalysis == null) {
+            let analysisText=document.createTextNode("Job File Missing");
+            let analysisSpan=document.createElement("span");
+            analysisSpan.appendChild(analysisText);
+            analysis.appendChild(analysisIcon);
+            analysis.appendChild(nbspAnalysis);
+            analysis.appendChild(analysisSpan);
+            analysis.classList.add("w3-padding-16");
+            div2.appendChild(analysis);
+        }
+        else {
+
         let analysisText=document.createTextNode("Job Analysis");
         let analysisSpan=document.createElement("span");
         analysisSpan.appendChild(analysisText);
@@ -331,6 +345,7 @@ function renderRunList(data:any) {
             // Prevent the default action
             event.preventDefault();
             //show it and when we close it, remove the red border
+            console.log("run.jobAnalysis:", run.jobAnalysis);
             let analysisDisplay=formatAnalysis(run.jobAnalysis);
             showDialog(analysisDisplay, "Job Analysis", 20, 20)
                 .then((result) => {
@@ -340,7 +355,7 @@ function renderRunList(data:any) {
 
                 });
         });
-
+    }
 
 
 
@@ -452,7 +467,7 @@ function updateUI(data:any) {
     }
 }
 
-socket.on("server_data", (data:any) => {
+window.socket.on("server_data", (data:any) => {
     console.log("server_data data:", data);
     const dataDisplayElement = document.getElementById("dataDisplay");
     if (dataDisplayElement) {
@@ -462,10 +477,10 @@ socket.on("server_data", (data:any) => {
 });
 
 function requestUpdate() {
-    socket.emit("request_update");
+    window.socket.emit("request_update");
 }
 
-socket.on("update_data", (data:any) => {
+window.socket.on("update_data", (data:any) => {
     console.log("update_data data:", data);
     const dataDisplay = document.getElementById("dataDisplay");
     if (dataDisplay) {

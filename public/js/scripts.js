@@ -1,3 +1,4 @@
+"use strict";
 const closeButton = document.getElementById("close");
 if (closeButton) {
     closeButton.addEventListener("click", () => {
@@ -7,8 +8,6 @@ if (closeButton) {
         }
     });
 }
-import { io } from "socket.io-client";
-const socket = io();
 function showDialog(detailsTextContent, dialogTitle, x, y) {
     return new Promise((resolve, reject) => {
         // Create the dialog element
@@ -220,33 +219,46 @@ function renderRunList(data) {
         analysisIcon.title = "Analysis";
         analysisIcon.classList.add("fa-solid", "fa-magnifying-glass-chart", "fa-fw");
         let nbspAnalysis = document.createTextNode("\u00A0");
-        let analysisText = document.createTextNode("Job Analysis");
-        let analysisSpan = document.createElement("span");
-        analysisSpan.appendChild(analysisText);
-        analysisSpan.style.cursor = "pointer";
-        analysis.appendChild(analysisIcon);
-        analysis.appendChild(nbspAnalysis);
-        analysis.appendChild(analysisSpan);
-        analysis.classList.add("w3-padding-16");
-        div2.appendChild(analysis);
-        analysisSpan.addEventListener("click", (event) => {
-            // now lets select the div containing this statusSpan that has the class w3-row
-            let div = event.target?.closest(".w3-row");
-            // now add a red border to the div until we close the dialog
-            if (div)
-                div.style.border = "2px solid red";
-            // Prevent the default action
-            event.preventDefault();
-            //show it and when we close it, remove the red border
-            let analysisDisplay = formatAnalysis(run.jobAnalysis);
-            showDialog(analysisDisplay, "Job Analysis", 20, 20)
-                .then((result) => {
-                //now lets remove the red border    
+        if (run.jobAnalysis == null) {
+            let analysisText = document.createTextNode("Job File Missing");
+            let analysisSpan = document.createElement("span");
+            analysisSpan.appendChild(analysisText);
+            analysis.appendChild(analysisIcon);
+            analysis.appendChild(nbspAnalysis);
+            analysis.appendChild(analysisSpan);
+            analysis.classList.add("w3-padding-16");
+            div2.appendChild(analysis);
+        }
+        else {
+            let analysisText = document.createTextNode("Job Analysis");
+            let analysisSpan = document.createElement("span");
+            analysisSpan.appendChild(analysisText);
+            analysisSpan.style.cursor = "pointer";
+            analysis.appendChild(analysisIcon);
+            analysis.appendChild(nbspAnalysis);
+            analysis.appendChild(analysisSpan);
+            analysis.classList.add("w3-padding-16");
+            div2.appendChild(analysis);
+            analysisSpan.addEventListener("click", (event) => {
+                // now lets select the div containing this statusSpan that has the class w3-row
+                let div = event.target?.closest(".w3-row");
+                // now add a red border to the div until we close the dialog
                 if (div)
-                    div.style.border = "none";
-            }).catch((err) => {
+                    div.style.border = "2px solid red";
+                // Prevent the default action
+                event.preventDefault();
+                //show it and when we close it, remove the red border
+                console.log("run.jobAnalysis:", run.jobAnalysis);
+                let analysisDisplay = formatAnalysis(run.jobAnalysis);
+                showDialog(analysisDisplay, "Job Analysis", 20, 20)
+                    .then((result) => {
+                    //now lets remove the red border    
+                    if (div)
+                        div.style.border = "none";
+                }).catch((err) => {
+                });
             });
-        });
+        }
         let detailsText = run.statusMessage.join("<br>");
         // Add event listeners for both click and touch
         statusSpan.addEventListener("click", (event) => {
@@ -328,7 +340,7 @@ function updateUI(data) {
         dataDisplay.innerText = data.message;
     }
 }
-socket.on("server_data", (data) => {
+window.socket.on("server_data", (data) => {
     console.log("server_data data:", data);
     const dataDisplayElement = document.getElementById("dataDisplay");
     if (dataDisplayElement) {
@@ -337,9 +349,9 @@ socket.on("server_data", (data) => {
     renderRunList(data);
 });
 function requestUpdate() {
-    socket.emit("request_update");
+    window.socket.emit("request_update");
 }
-socket.on("update_data", (data) => {
+window.socket.on("update_data", (data) => {
     console.log("update_data data:", data);
     const dataDisplay = document.getElementById("dataDisplay");
     if (dataDisplay) {
