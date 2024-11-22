@@ -44,6 +44,7 @@ WORKDIR /usr/src/app
 COPY ./dist/fireModels ./dist/fireModels
 COPY ./dist/gui ./dist/gui
 COPY ./public ./public
+COPY ./src/views ./dist/views
 COPY configVars.sh .
 #COPY . .
 
