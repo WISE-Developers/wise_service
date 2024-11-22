@@ -42,7 +42,7 @@ RUN mkdir -p /usr/src/app/node_modules/wise_js_api
 
 WORKDIR /usr/src/app
 COPY ./dist/fireModels ./dist/fireModels
-COPY ./dist/GUI ./dist/GUI
+COPY ./dist/gui ./dist/gui
 COPY ./public ./public
 COPY configVars.sh .
 #COPY . .
