@@ -13,7 +13,6 @@ const app = (0, express_1.default)();
 app.set('view engine', 'ejs');
 app.set('views', path_1.default.join(__dirname, '../../src/views'));
 console.log(path_1.default.join(__dirname, '../../public'));
-app.use(express_1.default.static(path_1.default.join(__dirname, '../../public')));
 // app.use(
 //   session({
 //     secret: 'your-secret-key',
@@ -24,5 +23,6 @@ app.use(express_1.default.static(path_1.default.join(__dirname, '../../public'))
 // app.use(passport.initialize());
 // app.use(passport.session());
 app.use('/', routes_1.router);
+app.use(express_1.default.static(path_1.default.join(__dirname, '../../public')));
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
