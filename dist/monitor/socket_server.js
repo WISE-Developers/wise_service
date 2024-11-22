@@ -208,6 +208,11 @@ const io = new socket_io_1.Server(httpServer);
 // Serve static files (HTML, JS) from a 'public' directory
 console.clear();
 let publicPath = path_1.default.join(__dirname, "../../public");
+// Logging middleware
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+    next();
+});
 console.log("Serving Static files from Public path: ", publicPath);
 app.use(express_1.default.static(publicPath));
 //app.use(express.static(path.join(__dirname, "sample_data")));
