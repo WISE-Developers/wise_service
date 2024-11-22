@@ -193,11 +193,11 @@ async function extractModelDataFromJob(model) {
     }
     return extractedData;
 }
-let targetPath = './sample_data/jobs/job_20240917144823903/job.fgmj';
-//now read the path in as utf8 text.
-let fire_model_data_json = require('fs').readFileSync(targetPath, 'utf8');
-let fire_model_data = JSON.parse(fire_model_data_json);
-extractModelDataFromJob(fire_model_data)
-    .then((meaningfulData) => {
-    console.log(meaningfulData);
-});
+// let targetPath = './sample_data/jobs/job_20240917144823903/job.fgmj'
+// //now read the path in as utf8 text.
+// let fire_model_data_json = require('fs').readFileSync(targetPath, 'utf8');
+// let fire_model_data = JSON.parse(fire_model_data_json);
+// extractModelDataFromJob(fire_model_data)
+//     .then((meaningfulData) => {
+//         console.log(meaningfulData)
+//     })

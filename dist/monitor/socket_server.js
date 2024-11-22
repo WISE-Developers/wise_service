@@ -207,7 +207,7 @@ const io = new socket_io_1.Server(httpServer);
 // }
 // Serve static files (HTML, JS) from a 'public' directory
 app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
-app.use(express_1.default.static(path_1.default.join(__dirname, "sample_data")));
+//app.use(express.static(path.join(__dirname, "sample_data")));
 // Handle socket connection and events
 io.on("connection", async (socket) => {
     console.log("Client connected:", socket.id);

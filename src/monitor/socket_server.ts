@@ -278,7 +278,7 @@ const io = new Server(httpServer);
 // }
 // Serve static files (HTML, JS) from a 'public' directory
 app.use(express.static(path.join(__dirname, "public")));
-app.use(express.static(path.join(__dirname, "sample_data")));
+//app.use(express.static(path.join(__dirname, "sample_data")));
 // Handle socket connection and events
 io.on("connection", async (socket) => {
     console.log("Client connected:", socket.id);
@@ -421,8 +421,8 @@ async function getAllJobMetaData(jobDir:string) {
 
    // status
    let status = 'unknown';
-   let statusMessage = [];
-   let scenarios = [];
+   let statusMessage:string[] = [];
+   let scenarios:any[] = [];
    let statusData
    if (validationJson === null) {
          status = 'failed';

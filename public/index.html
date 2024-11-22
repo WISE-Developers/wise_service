@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>WISEmon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue.css">
+    <script src="https://kit.fontawesome.com/40434d91ac.js" crossorigin="anonymous"></script>
+
+
+    <link rel="shortcut icon" href="images/favicon-64.png" type="image/icon">
+    <link rel="icon" href="images/favicon-64.png" type="image/icon">
+    </head>
+
+    <body style="max-width:500px;margin:16px;border:1px solid #ccc">
+
+
+        <header class="w3-container w3-card-4 w3-theme">
+            <h3>WISEMon - WISE Web Job Monitor &nbsp;<i id="about-button" class="fa-solid fa-circle-info w3-text-orange"></i></h3>
+        </header>
+        
+        <div class="w3-panel" id="display-panel">
+
+        </div>
+        
+        <footer class="w3-container w3-theme-l2" style="position:relative">
+            <a class="w3-btn w3-xlarge w3-circle w3-theme-action w3-right" style="position:absolute;top:-28px;right:16px;">+</a>
+            <p id="refresh-block">No Data Loaded Yet.</p>
+        </footer>
+        
+        <div class="w3-container w3-theme-dark w3-xlarge">«<span class="w3-right">»</span></div>
+        
+
+
+
+   
+        <div id="dataDisplay">Connecting...</div>
+        <button onclick="requestUpdate()">Request Update</button>
+
+
+
+        <dialog id="dialog">
+            <ul></ul>
+            <button id="close">Close</button>
+            <!--  this button should close this modal -->
+            <script>
+                document.getElementById("close").addEventListener("click", () => {
+                    document.getElementById("dialog").close();
+                });
+            </script>
+        </dialog>
+
+
+        <script src="/socket.io/socket.io.js"></script>
+
+        <script src="js/scripts.js"></script>
+    </body>
+
+</html>
+

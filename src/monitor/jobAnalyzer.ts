@@ -41,7 +41,7 @@ interface ModelData {
 const checkDates = (FGMJObject:any) => {
     const debugTemporal = false
     return new Promise(async (resolve, reject) => {
-        let results = []
+        let results:any[] = []
         // d1 < d2 // is d1 before d2?
         debugTemporal && console.log("Model Temporal Analysis:");
         console.time("Model Temporal Analysis - Complete:");
@@ -240,19 +240,19 @@ export async function extractModelDataFromJob(model: any): Promise<ModelData> {
 }
 
 
-let targetPath = './sample_data/jobs/job_20240917144823903/job.fgmj'
+// let targetPath = './sample_data/jobs/job_20240917144823903/job.fgmj'
 
-//now read the path in as utf8 text.
-let fire_model_data_json = require('fs').readFileSync(targetPath, 'utf8');
-let fire_model_data = JSON.parse(fire_model_data_json);
-
-
+// //now read the path in as utf8 text.
+// let fire_model_data_json = require('fs').readFileSync(targetPath, 'utf8');
+// let fire_model_data = JSON.parse(fire_model_data_json);
 
 
 
 
 
-extractModelDataFromJob(fire_model_data)
-    .then((meaningfulData) => {
-        console.log(meaningfulData)
-    })
+
+
+// extractModelDataFromJob(fire_model_data)
+//     .then((meaningfulData) => {
+//         console.log(meaningfulData)
+//     })
