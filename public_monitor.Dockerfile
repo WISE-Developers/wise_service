@@ -44,6 +44,7 @@ RUN mkdir -p /usr/src/app/node_modules/wise_js_api
 
 WORKDIR /usr/src/app
 COPY ./dist/monitor ./dist/monitor
+COPY configVars.sh .
 
 # RUN pwd
 # RUN echo "SHowing the jobs/ image..."
