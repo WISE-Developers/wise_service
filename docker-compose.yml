@@ -69,6 +69,62 @@ services:
       - .env
     networks:
       - wise_network  # Specify the existing network
+
+  WISEgui:
+    container_name: ${GUI_CONTAINER_NAME}
+    image: ${GUI_CONTAINER_IMAGE_NAME}
+    hostname: gui
+    ports:
+      - "${EXTERNAL_APP_PORT}:3000"      
+    mem_limit: 3g             # Maximum 3 GB of memory
+    cpus: "1.0"               # Maximum 1 CPU core
+    build:
+      context: .
+      dockerfile: ./public_gui.Dockerfile
+
+    environment:
+      - ENTERPRISE_TZ=${TZ}
+      - WISE_EXTERNAL_DATA_FOLDER=${WISE_EXTERNAL_DATA_FOLDER}
+      - WISE_BUILDER_MQTT_HOST=${WISE_BUILDER_MQTT_HOST}
+      - WISE_BUILDER_MQTT_PORT=${WISE_BUILDER_MQTT_PORT}
+      - WISE_BUILDER_MQTT_TOPIC=${WISE_BUILDER_MQTT_TOPIC}
+      - WISE_BUILDER_HOST=${WISE_BUILDER_HOST}
+      - WISE_BUILDER_PORT=${WISE_BUILDER_PORT}
+
+    volumes:
+      - ${WISE_EXTERNAL_DATA_FOLDER}:${WISE_INTERNAL_DATA_FOLDER}
+    env_file:
+      - .env
+    networks:
+      - wise_network  # Specify the existing network
+  WISEmon:
+    container_name: ${MONITOR_CONTAINER_NAME}
+    image: ${MONITOR_CONTAINER_IMAGE_NAME}
+    hostname: monitor
+    ports:
+      - "${WISE_RESULTS_SOCKETS_WEB_PORT}:3030"      
+    mem_limit: 3g             # Maximum 3 GB of memory
+    cpus: "1.0"               # Maximum 1 CPU core
+    build:
+      context: .
+      dockerfile: ./public_gui.Dockerfile
+
+    environment:
+      - ENTERPRISE_TZ=${TZ}
+      - WISE_EXTERNAL_DATA_FOLDER=${WISE_EXTERNAL_DATA_FOLDER}
+      - WISE_BUILDER_MQTT_HOST=${WISE_BUILDER_MQTT_HOST}
+      - WISE_BUILDER_MQTT_PORT=${WISE_BUILDER_MQTT_PORT}
+      - WISE_BUILDER_MQTT_TOPIC=${WISE_BUILDER_MQTT_TOPIC}
+      - WISE_BUILDER_HOST=${WISE_BUILDER_HOST}
+      - WISE_BUILDER_PORT=${WISE_BUILDER_PORT}
+
+    volumes:
+      - ${WISE_EXTERNAL_DATA_FOLDER}:${WISE_INTERNAL_DATA_FOLDER}
+    env_file:
+      - .env
+    networks:
+      - wise_network  # Specify the existing network
+
 networks:
   wise_network:
     driver: bridge
