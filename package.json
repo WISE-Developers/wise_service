@@ -7,7 +7,7 @@
     "build": "tsc --project tsconfig.node.json && tsc --project tsconfig.browser.json",
     "dev-GUI": "nodemon  dist/GUI/app.js",
 
-    "GUI": "node dist/GUI/app.js",
+    "GUI": "node dist/gui/app.js",
     "monitor": "node dist/monitor/socket_server.js",
     "monitorLive": "node socket_server.js",
     "builder_server": "sh runBuilder.sh",
