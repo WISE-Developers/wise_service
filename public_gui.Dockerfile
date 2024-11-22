@@ -41,8 +41,8 @@ RUN mkdir -p /usr/src/app/node_modules/wise_js_api
 # where available (npm@5+)
 
 WORKDIR /usr/src/app
-COPY ./dist/fireModels ./fireModels
-COPY ./dist/gui ./gui
+COPY ./dist/fireModels ./dist/fireModels
+COPY ./dist/gui ./dist/gui
 COPY ./public ./public
 COPY configVars.sh .
 #COPY . .
