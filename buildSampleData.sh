@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Load configuration
-if [ -f ./configVars.sh ]; then
-  echo "Loading configVars.sh"
-  . ./configVars.sh || { echo "Could not load configVars.sh"; exit 1; }
+if [ -f .env ]; then
+  echo "Loading.env"
+  source .env  || { echo "Could not load .env"; exit 1; }
 else
-  echo "Could not find ./configVars.sh"; exit 1;
+  echo "Could not find .env"; exit 1;
 fi
 
 # make the destination path by combining WISE_EXTERNAL_DATA_FOLDER + WISE_DATASET_FOLDER
