@@ -10,6 +10,19 @@ fi
 
 # make the destination path by combining WISE_EXTERNAL_DATA_FOLDER + WISE_DATASET_FOLDER
 
+# before we move on we must make sure that both inportant variuables are not empty
+if [ -z "$WISE_EXTERNAL_DATA_FOLDER" ]; then
+  echo "WISE_EXTERNAL_DATA_FOLDER is not set. Exiting."
+  exit 1
+fi
+
+if [ -z "$WISE_DATASET_FOLDER" ]; then
+  echo "WISE_DATASET_FOLDER is not set. Exiting."
+  exit 1
+fi
+
+
+
 # Ensure the script exits on any error
 set -e
 
