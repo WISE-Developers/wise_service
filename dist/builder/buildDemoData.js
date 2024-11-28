@@ -32,11 +32,18 @@ const fs_1 = __importDefault(require("fs"));
 const unzipper_1 = __importDefault(require("unzipper"));
 // load dotenv
 dotenv_1.default.config();
-let dataSetPath = `${process.env.WISE_INTERNAL_DATA_FOLDER}/${process.env.WISE_DATASET_FOLDER}`;
-// lets make sure that this path exists
-if (!fs_1.default.existsSync(dataSetPath)) {
-    console.error(`The folder ${dataSetPath} does not exist. Please check your .env file.`);
+// make sure that the required environment variables are set
+if (!process.env.WISE_INTERNAL_DATA_FOLDER || !process.env.WISE_DATASET_FOLDER) {
+    console.error('Please set the WISE_INTERNAL_DATA_FOLDER and WISE_DATASET_FOLDER environment variables in your .env file.');
     process.exit(1);
+}
+let dataSetPath = `${process.env.WISE_INTERNAL_DATA_FOLDER}/${process.env.WISE_DATASET_FOLDER}`;
+// lets make sure that this path exists, if not create it
+if (!fs_1.default.existsSync(dataSetPath)) {
+    console.error(`The folder ${dataSetPath} does not exist.`);
+    console.log(`Creating the folder ${dataSetPath}...`);
+    fs_1.default.mkdirSync(dataSetPath, { recursive: true });
+    console.log(`The folder ${dataSetPath} has been created.`);
 }
 else {
     console.log(`The folder ${dataSetPath} exists.`);

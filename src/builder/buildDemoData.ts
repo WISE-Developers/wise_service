@@ -6,12 +6,29 @@ import unzipper from 'unzipper';
 // load dotenv
 dotenv.config();
 
+
+// make sure that the required environment variables are set
+if (!process.env.WISE_INTERNAL_DATA_FOLDER || !process.env.WISE_DATASET_FOLDER) {
+    console.error('Please set the WISE_INTERNAL_DATA_FOLDER and WISE_DATASET_FOLDER environment variables in your .env file.');
+    process.exit(1);
+}
+
+
+
 let dataSetPath = `${process.env.WISE_INTERNAL_DATA_FOLDER}/${process.env.WISE_DATASET_FOLDER}`;
-// lets make sure that this path exists
+
+
+
+
+// lets make sure that this path exists, if not create it
 
 if (!fs.existsSync(dataSetPath)) {
-    console.error(`The folder ${dataSetPath} does not exist. Please check your .env file.`);
-    process.exit(1);
+    console.error(`The folder ${dataSetPath} does not exist.`);
+    console.log(`Creating the folder ${dataSetPath}...`);
+    fs.mkdirSync(dataSetPath, { recursive: true });
+    console.log(`The folder ${dataSetPath} has been created.`);
+    
+    
 }
 else {
     console.log(`The folder ${dataSetPath} exists.`);
