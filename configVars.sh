@@ -2,7 +2,7 @@
 
 # This is the script that defines everything in the automated process.
 # we set everything into ENV vars.
-
+pwd
 # Read in and apply the .env file
 set -o allexport
 source .env
