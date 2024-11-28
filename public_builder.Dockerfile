@@ -62,6 +62,7 @@ WORKDIR /usr/src/app
 COPY ./dist/builder/*.* .
 COPY configVars.sh .
 COPY runBuilder.sh .
+COPY .env .
 #COPY . .
 
 # RUN pwd
