@@ -98,3 +98,7 @@ async function unzipFile(zipFile, outputDir) {
 }
 concatenateFiles(inputDirectory, outputZip, fileRegex);
 unzipFile(outputZip, dataSetPath);
+// now we shoulddelete the inputDirectory and the outputZip
+fs_1.default.rmdirSync(inputDirectory, { recursive: true });
+fs_1.default.unlinkSync(outputZip);
+console.log(`Deleted ${inputDirectory} and ${outputZip}`);

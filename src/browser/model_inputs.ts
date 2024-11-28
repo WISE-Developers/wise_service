@@ -1,5 +1,21 @@
 
-
+interface StepLib {
+    [key: string]: {
+        target?: string;
+        description?: string;
+        adminNote?: string;
+        choice?: string[];
+        pointLatLon?: {
+            description: string;
+            inputs: string[];
+        };
+        pointMap?: {};
+        polygonGeojson?: {};
+        polygonMap?: {};
+        choiceFunction?: Function; // Add choiceFunction property
+        choiceArgs?: string[]; // Add choiceArgs property
+    };
+}
 //function to create a multi step inputs wizard - takes an abstract object as inout
 // this will initiliZw an html5 dialog element in modal mode, and then step through the inputs
 // using the abstract object to define the steps. for gui elements we will use html elments styled with 
@@ -41,14 +57,14 @@ const createWizard = (abstract: any) => {
     nextButton.textContent = 'Next';
     nextButton.style.marginTop = '10px';
     nextButton.style.marginRight = '10px';
-    nextButton.style.display = 'none';
+    //nextButton.style.display = 'none';
     dialog.appendChild(nextButton);
     let backButton = document.createElement('div');
     backButton.className = 'w3-button w3-blue w3-round w3-right';
     backButton.textContent = 'Back';
     backButton.style.marginTop = '10px';
     backButton.style.marginRight = '10px';
-    backButton.style.display = 'none';
+   // backButton.style.display = 'none';
     dialog.appendChild(backButton);
     let cancelButton = document.createElement('div');
     cancelButton.className = 'w3-button w3-red w3-round w3-right';
@@ -67,7 +83,7 @@ const createWizard = (abstract: any) => {
     finishButton.textContent = 'Finish';
     finishButton.style.marginTop = '10px';
     finishButton.style.marginRight = '10px';
-    finishButton.style.display = 'none';
+ //   finishButton.style.display = 'none';
     dialog.appendChild(finishButton);
     let content = document.createElement('div');
     dialog.appendChild(content);
@@ -86,19 +102,63 @@ const createWizard = (abstract: any) => {
     let currentStep = 0;
     for (let i = 0; i < wizardSteps.length; i++) {
         let stepDiv = document.createElement('div');
+        console.log();
         stepDiv.id = 'step' + i;
-        stepDiv.style.display = 'none';
+      //  stepDiv.style.display = 'none';
         stepDivs.push(stepDiv);
         let stepTitle = document.createElement('h4');
         stepTitle.textContent = wizardSteps[i];
         stepDiv.appendChild(stepTitle);
         let stepContent = document.createElement('div');
         stepDiv.appendChild(stepContent);
+
+        let stepData: any = stepLib[wizardSteps[i]];
+        console.log('stepData', stepData);
+        if (stepData.description) {
+            let stepDescription = document.createElement('p');
+            stepDescription.textContent = stepData.description;
+            stepContent.appendChild(stepDescription);
+        }
+        if (stepData.adminNote) {
+            let stepAdminNote = document.createElement('p');
+            stepAdminNote.textContent = stepData.adminNote;
+            stepContent.appendChild(stepAdminNote);
+        }
+
+        if (stepData.choice) {
+            let choice = document.createElement('select');
+            choice.id = wizardSteps[i] + 'Choice';
+            choice.className = 'w3-select w3-border w3-round';
+            stepContent.appendChild(choice);
+            let choices = stepData.choice;
+            for (let j = 0; j < choices.length; j++) {
+                let option = document.createElement('option');
+                option.value = choices[j];
+                option.textContent = choices[j];
+                choice.appendChild(option);
+            }
+        }
+        else if (stepData.choiceFunction) {
+            let choice = document.createElement('select');
+            choice.id = wizardSteps[i] + 'Choice';
+            choice.className = 'w3-select w3-border w3-round';
+            stepContent.appendChild(choice);
+            let choices = stepData.choiceFunction(...stepData.choiceArgs);
+            for (let j = 0; j < choices.length; j++) {
+                let option = document.createElement('option');
+                option.value = choices[j];
+                option.textContent = choices[j];
+                choice.appendChild(option);
+            }
+        }
+        else {
+
         let input = document.createElement('input');
         input.type = 'text';
         input.id = wizardSteps[i];
         input.className = 'w3-input w3-border w3-round';
         stepContent.appendChild(input);
+        }
         content.appendChild(stepDiv);
     }
 
@@ -112,10 +172,10 @@ const createWizard = (abstract: any) => {
 }
 
 function generateWeatherChoices () {
-    return ['point(lat-lon)', 'point(map)', 'polygon(geojson)', 'polygon(map)'];
+    return ['model1', 'model2', 'model3', 'model4'];
 }
 
-const stepLib={
+const stepLib: StepLib = {
     modelStart: {},
     fireName: {},
     ignition: {
@@ -124,24 +184,24 @@ const stepLib={
         adminNote: "This is the ignition geometry for the fire, it will be saved as a geojson geometry called ignition geometry",
         choice: ["pointLatLon)", "pointMap", 'polygonGeojson', 'polygonMap'],
         pointLatLon: {
-            "description": "This is the ignition point for the fire",
-            "inputs": ["latitude", "longitude"]
+            description: "This is the ignition point for the fire",
+            inputs: ["latitude", "longitude"]
         },
         pointMap: {},
         polygonGeojson: {},
         polygonMap: {}
-    },    
+    },
     weather: {
         description: "This is the weather model for the forecast",
         adminNote: "This is the weather for model for the forecast, it and the point/centroid will be used to generate a forecast, it will be saved as a text string in weather stream format called weather stream",
         choiceFunction: generateWeatherChoices,
         choiceArgs: ["ignitionGeometry", "point-map", 'polygon(geojson)', 'polygon-map'],
-        "point(lat-lon)": {
-            "description": "This is the weather point for the fire",
-            "inputs": ["latitude", "longitude"]
+        "pointLatLon": {
+            description: "This is the weather point for the fire",
+            inputs: ["latitude", "longitude"]
         },
     }
-}
+};
 
 
 export { createWizard }
