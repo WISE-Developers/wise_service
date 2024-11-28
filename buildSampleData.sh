@@ -39,4 +39,4 @@ echo "Destination path: $DESTINATION_PATH"
 
 
 cat ./sample_data/wise_demo_data_part-* > ./sample_data/wise_demo_data.zip
-unzip ./sample_data/wise_demo_data.zip -d $DESTINATION_PATH
+unzip -j ./sample_data/wise_demo_data.zip -d $DESTINATION_PATH
