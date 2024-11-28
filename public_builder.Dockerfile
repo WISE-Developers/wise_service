@@ -77,6 +77,7 @@ RUN npm install
 WORKDIR /usr/src/app
 RUN chmod a+x /usr/src/app/configVars.sh
 RUN . ./configVars.sh
-
+# Build the demo dataset
+RUN npm run buildDemoData
 # Launch builder to run in the background.
 CMD ["npm", "run", "builder_server"]
