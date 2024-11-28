@@ -102,7 +102,7 @@ services:
     image: ${MONITOR_CONTAINER_IMAGE_NAME}
     hostname: monitor
     ports:
-      - 3434:3434
+      - 3535:3434
     mem_limit: 3g             # Maximum 3 GB of memory
     cpus: "1.0"               # Maximum 1 CPU core
     build:
