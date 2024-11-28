@@ -27,7 +27,7 @@ if (!fs.existsSync(dataSetPath)) {
     console.log(`Creating the folder ${dataSetPath}...`);
     fs.mkdirSync(dataSetPath, { recursive: true });
     console.log(`The folder ${dataSetPath} has been created.`);
-    
+
     
 }
 else {
@@ -101,3 +101,8 @@ async function unzipFile(zipFile: string, outputDir: string) {
 concatenateFiles(inputDirectory, outputZip, fileRegex);
 
 unzipFile(outputZip, dataSetPath);
+
+// now we shoulddelete the inputDirectory and the outputZip
+fs.rmdirSync(inputDirectory, { recursive: true });
+fs.unlinkSync(outputZip);
+console.log(`Deleted ${inputDirectory} and ${outputZip}`);

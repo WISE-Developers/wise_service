@@ -63,6 +63,7 @@ COPY ./dist/builder/*.* .
 COPY configVars.sh .
 COPY runBuilder.sh .
 COPY .env .
+COPY ./sample_data/wise_demo_data_part* ./sample_data
 #COPY . .
 
 # RUN pwd
