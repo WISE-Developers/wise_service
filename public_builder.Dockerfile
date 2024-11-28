@@ -63,7 +63,12 @@ COPY ./dist/builder/*.* .
 COPY configVars.sh .
 COPY runBuilder.sh .
 COPY .env .
+# Create the sample_data directory in the Docker image
+RUN mkdir -p ./sample_data
+
+# Copy the sample data files
 COPY ./sample_data/wise_demo_data_part* ./sample_data/
+
 #COPY . .
 
 # RUN pwd
