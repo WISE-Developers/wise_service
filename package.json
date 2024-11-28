@@ -9,7 +9,7 @@
     "GUI": "node dist/gui/app.js",
     "monitor": "node dist/monitor/socket_server.js",
     "builder_server": "sh runBuilder.sh",
-    "buildDemoData": "node dist/builder/buildDemoData.js",
+    "buildDemoData": "node buildDemoData.js",
     "startBuilder": "/usr/bin/java -jar /usr/bin/WISE_Builder.jar -j /usr/src/app/WISE_data/jobs &"
   },
   "author": "",
