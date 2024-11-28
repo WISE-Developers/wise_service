@@ -49,3 +49,19 @@ nano .env
 ```SH
 docker compose up -d
 ```
+
+## Dependancies
+
+This service stack depends on:
+
+### WISE
+
+![WISE Logo](public/images/favicon-64.png)
+
+link: <https://github.com/WISE-Developers>
+
+## Demo Data Set
+
+The demo dataset included in this repo, is an invalid and outdated dataset, it should be used for demo purposes only. 
+This data set is not safe for use for real wildfire modelling, and you must use it at your own risk. Any use of this demo dataset 
+constitutes acceptance of those conditions. This dataset cannot be used for any form of validation as this dataset contains invalid data.
