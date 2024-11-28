@@ -63,7 +63,7 @@ COPY ./dist/builder/*.* .
 COPY configVars.sh .
 COPY runBuilder.sh .
 COPY .env .
-COPY ./sample_data/wise_demo_data_part* ./sample_data
+COPY ./sample_data/wise_demo_data_part* ./sample_data/
 #COPY . .
 
 # RUN pwd
@@ -81,6 +81,6 @@ RUN chmod a+x /usr/src/app/configVars.sh
 RUN . ./configVars.sh
 # Build the demo dataset
 # RUN cat /usr/src/app/dist/builder/buildDemoData.js
-# RUN npm run buildDemoData
+RUN npm run buildDemoData
 # Launch builder to run in the background.
 CMD ["npm", "run", "builder_server"]
