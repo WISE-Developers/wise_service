@@ -59,9 +59,9 @@ RUN mkdir -p /usr/src/app/node_modules/wise_js_api
 # where available (npm@5+)
 
 WORKDIR /usr/src/app
-COPY ./dist/builder/*.* .
-COPY configVars.sh .
-COPY runBuilder.sh .
+COPY ./dist/builder/*.* ./
+COPY configVars.sh ./
+COPY runBuilder.sh ./
 COPY .env .
 # Create the sample_data directory in the Docker image
 RUN mkdir -p ./sample_data
