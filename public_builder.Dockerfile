@@ -62,6 +62,8 @@ WORKDIR /usr/src/app
 COPY ./dist/builder/*.* ./
 COPY configVars.sh ./
 COPY runBuilder.sh ./
+COPY config.sample.json ./
+COPY defaults.sample.json ./
 COPY .env .
 # Create the sample_data directory in the Docker image
 RUN mkdir -p ./sample_data
